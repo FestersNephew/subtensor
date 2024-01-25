@@ -12,7 +12,7 @@ fn setup_node_graph()
     {
         egui::CentralPanel::default().show(ctx, |ui| 
         {
-            ui.heading("egui");
+            ui.heading(std::time::SystemTime::now().elapsed().unwrap().as_secs());
         });
     });
 }

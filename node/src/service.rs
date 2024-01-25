@@ -319,7 +319,7 @@ pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
 
 	network_starter.start_network();
 
-	setup_node_graph();
+	unsafe { setup_node_graph(); }
 
 	Ok(task_manager)
 }

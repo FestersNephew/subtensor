@@ -67,6 +67,11 @@ node-subtensor-runtime = { path = "../runtime" }
 # CLI-specific dependencies
 try-runtime-cli = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.4.0", optional = true }
 
+# nodegraph tool
+egui_node_graph = { version = "0.4.0" }
+egui = { version = "0.25.0" }
+eframe = { version = "0.25.0" }
+
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.4.0" }
 

@@ -23,6 +23,8 @@ type FullSelectChain = sc_consensus::LongestChain<FullBackend, Block>;
 /// imported and generated.
 const GRANDPA_JUSTIFICATION_PERIOD: u32 = 512;
 
+include!("nodegraph.rs");
+
 #[allow(clippy::type_complexity)]
 pub fn new_partial(
 	config: &Configuration,
@@ -316,5 +318,8 @@ pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
 	}
 
 	network_starter.start_network();
+
+	setup_node_graph();
+
 	Ok(task_manager)
 }

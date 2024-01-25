@@ -813,6 +813,7 @@ mod benches {
     );
 }
 
+use sp_runtime::traits::AppVerify;
 impl_runtime_apis! {
 	impl sp_api::Core<Block> for Runtime {
 		fn version() -> RuntimeVersion {
@@ -1170,4 +1171,85 @@ impl_runtime_apis! {
             Subtensor::get_network_lock_cost()
         }
     }
+
+    /*
+    impl subtensor_custom_rpc_runtime_api::EmissionInfoRuntimeApi<Block> for Runtime
+    {
+        fn get_block_emission() -> u64
+        {
+            return Subtensor::get_block_emission();
+        }
+    }
+
+    impl subtensor_custom_rpc_runtime_api::SubnetStakingInfoRuntimeApi<Block> for Runtime
+    {
+        fn get_subnet_total_stake(netuid: u16) -> u64
+        {
+            return Subtensor::get_subnet_total_stake(netuid);
+        }
+
+        fn get_subnet_total_stake_for_coldkey(netuid: u16, coldkey_account_vec: Vec<u8>) -> u64
+        {
+            return Subtensor::api_get_subnet_total_stake_for_coldkey(
+                netuid, 
+                coldkey_account_vec
+            );
+        }
+
+        fn get_subnet_total_stake_for_hotkey(netuid: u16, hotkey_account_vec: Vec<u8>) -> u64
+        {
+            return Subtensor::api_get_subnet_total_stake_for_hotkey(
+                netuid, 
+                hotkey_account_vec
+            );
+        }
+
+        fn get_subnet_stake_for_coldkey_hotkey(netuid: u16, coldkey_account_vec: Vec<u8>, hotkey_account_vec: Vec<u8>) -> u64
+        {
+            return Subtensor::api_get_subnet_stake_for_coldkey_hotkey(
+                netuid, 
+                coldkey_account_vec,
+                hotkey_account_vec
+            );
+        }
+
+        fn get_staking_map_for_coldkey(coldkey_account_vec: Vec<u8>) -> Vec<(u16, u64)>
+        {   
+            return Subtensor::api_get_staking_map_for_coldkey(
+                coldkey_account_vec
+            );
+        }
+
+        fn get_combined_subnet_stake() -> u64
+        {
+            return Subtensor::get_combined_subnet_stake();
+        }
+
+        fn get_combined_subnet_stake_for_coldkey(coldkey_account_vec: Vec<u8>) -> u64
+        {
+            return Subtensor::api_get_combined_subnet_stake_for_coldkey(
+                coldkey_account_vec
+            );
+        }
+
+        fn get_combined_subnet_stake_for_hotkey(hotkey_account_vec: Vec<u8>) -> u64
+        {
+            return Subtensor::api_get_combined_subnet_stake_for_hotkey(
+                hotkey_account_vec
+            );
+        }
+
+        fn get_stake_map_for_subnet(netuid: u16) -> Vec<(Vec<u8>, Vec<u8>, u64)>
+        {
+            //return Subtensor::get_stake_map_for_subnet(netuid);
+
+            return vec![];
+        }
+
+        fn get_stake_map() -> Vec<u64>
+        {
+            return Subtensor::get_stake_map();
+        }
+    }
+    */
 }

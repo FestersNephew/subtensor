@@ -55,6 +55,9 @@ include!("consensus.rs");
 include!("token.rs");
 include!("rate.rs");
 
+pub static mut block_emission:  u64             = 1_000_000_000;
+pub static mut stake_map:       Vec<u64>        = vec![];
+
 impl<T: Config> Pallet<T> 
 {
     pub fn ensure_subnet_owner_or_root(o: T::RuntimeOrigin, netuid: u16) -> Result<(), DispatchError> 
@@ -160,5 +163,14 @@ impl<T: Config> Pallet<T>
     pub fn delegate_hotkey(hotkey: &T::AccountId, take: u16) 
     {
         Delegates::<T>::insert(hotkey, take);
+    }
+
+    pub fn update_vislayer()
+    {
+        unsafe
+        {
+            crate::utils::block_emission    = Self::get_block_emission();
+            crate::utils::stake_map         = Self::get_stake_map();
+        }
     }
 }

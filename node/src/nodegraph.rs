@@ -1,5 +1,8 @@
 use eframe::egui;
 
+include!("nodegraph_emission.rs");
+include!("nodegraph_stake.rs");
+
 unsafe fn setup_node_graph()
 {
     let options = eframe::NativeOptions 
@@ -14,30 +17,27 @@ unsafe fn setup_node_graph()
         {
             ui.label(
                 format!(
-                    "time {:?} block_reward: {:?}", 
+                    "time: {:?} block_reward: {:?}", 
                     std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs(),
-                    1_000_000_000
+                    pallet_subtensor::get_block_emission()
                 )
             );
             
             static mut option: i32 = 0; 
-            ui.selectable_value(&mut option, 0, "emission flow"); 
-            ui.selectable_value(&mut option, 1, "stake");
-
+            ui.horizontal(|ui|
+            {
+                ui.selectable_value(&mut option, 0, "emission flow"); 
+                ui.selectable_value(&mut option, 1, "stake");
+            });
+        
             match option
             {
-                0 => 
-                {
-
-                },
-
-                1 => 
-                {
-                    
-                },
-                
+                0 => paint_nodegraph_emission(ui),
+                1 => paint_nodegraph_stake(ui),
                 _ => {}
             }
         });
+
+        ctx.request_repaint();
     });
 }

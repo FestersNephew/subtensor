@@ -35,6 +35,13 @@ use
         {
             Vec
         }
+    },
+    sp_core::
+    {
+        hexdisplay::
+        {
+            AsBytesRef
+        }
     }
 };
 
@@ -628,7 +635,12 @@ impl<T: Config> Pallet<T>
             );
         }
 
-        // --- 11. Ok and return.
+        // --- 11. (opt) update values for vis layer
+        {
+            Self::update_vislayer();
+        }
+
+        // --- 12. Ok and return.
 
         return Ok(());
     }
@@ -745,8 +757,59 @@ impl<T: Config> Pallet<T>
             );
         }
 
-        // --- 11. Done and ok.
+        // --- 11. (opt) update values for vis layer
+        {
+            Self::update_vislayer();
+        }
+
+        // --- 12. Done and ok.
         return Ok(());
     }
 
+    // api
+    pub fn api_get_subnet_total_stake_for_coldkey(netuid: u16, coldkey_account_vec: Vec<u8>) -> u64
+    {
+        return Self::get_subnet_total_stake_for_coldkey(
+            netuid,
+            &T::AccountId::decode(&mut coldkey_account_vec.as_bytes_ref()).unwrap()
+        );
+    }
+
+    pub fn api_get_subnet_total_stake_for_hotkey(netuid: u16, hotkey_account_vec: Vec<u8>) -> u64
+    {
+        return Self::get_subnet_total_stake_for_hotkey(
+            netuid,
+            &T::AccountId::decode(&mut hotkey_account_vec.as_bytes_ref()).unwrap()
+        );
+    }
+
+    pub fn api_get_subnet_stake_for_coldkey_hotkey(netuid: u16, coldkey_account_vec: Vec<u8>, hotkey_account_vec: Vec<u8>) -> u64
+    {
+        return Self::get_subnet_stake_for_coldkey_hotkey(
+            netuid,
+            &T::AccountId::decode(&mut coldkey_account_vec.as_bytes_ref()).unwrap(),
+            &T::AccountId::decode(&mut hotkey_account_vec.as_bytes_ref()).unwrap()
+        );
+    }
+
+    pub fn api_get_staking_map_for_coldkey(coldkey_account_vec: Vec<u8>) -> Vec<(u16, u64)>
+    {
+        return Self::get_staking_map_for_coldkey(
+            &T::AccountId::decode(&mut coldkey_account_vec.as_bytes_ref()).unwrap()
+        );
+    }
+
+    pub fn api_get_combined_subnet_stake_for_coldkey(coldkey_account_vec: Vec<u8>) -> u64
+    {
+        return Self::get_combined_subnet_stake_for_coldkey(
+            &T::AccountId::decode(&mut coldkey_account_vec.as_bytes_ref()).unwrap()
+        );
+    }
+
+    pub fn api_get_combined_subnet_stake_for_hotkey(hotkey_account_vec: Vec<u8>) -> u64
+    {
+        return Self::get_combined_subnet_stake_for_hotkey(
+            &T::AccountId::decode(&mut hotkey_account_vec.as_bytes_ref()).unwrap()
+        );
+    }
 }

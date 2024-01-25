@@ -32,4 +32,18 @@ sp_api::decl_runtime_apis! {
     pub trait SubnetRegistrationRuntimeApi {
         fn get_network_registration_cost() -> u64;
     }
+
+    pub trait SubnetStakingInfoRuntimeApi
+    {
+        fn get_subnet_total_stake(netuid: u16) -> u64;
+        fn get_subnet_total_stake_for_coldkey(netuid: u16, coldkey_account_vec: Vec<u8>) -> u64;
+        fn get_subnet_total_stake_for_hotkey(netuid: u16, hotkey_account_vec: Vec<u8>) -> u64;
+        fn get_subnet_stake_for_coldkey_hotkey(netuid: u16, coldkey_account_vec: Vec<u8>, hotkey_account_vec: Vec<u8>) -> u64;
+        fn get_staking_map_for_coldkey(coldkey_account_vec: Vec<u8>) -> Vec<(u16, u64)>;
+        fn get_combined_subnet_stake() -> u64;
+        fn get_combined_subnet_stake_for_coldkey(coldkey_account_vec: Vec<u8>) -> u64;
+        fn get_combined_subnet_stake_for_hotkey(hotkey_account_vec: Vec<u8>) -> u64;
+        fn get_stake_map_for_subnet(netuid: u16) -> Vec<(Vec<u8>, Vec<u8>, u64)>;
+        fn get_stake_map() -> Vec<u64>;
+    }
 }

@@ -54,6 +54,11 @@ impl<T: Config> Pallet<T>
             Self::generate_emission(block_number);
         }
 
+        // --- 4. (opt) update values for vis layer
+        {
+            Self::update_vislayer();
+        }
+
         // Return ok.
         Ok(())
     }

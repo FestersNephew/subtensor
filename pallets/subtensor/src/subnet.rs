@@ -384,6 +384,8 @@ impl<T: Config> Pallet<T>
     pub fn set_total_issuance(total_issuance: u64) 
     {
         TotalIssuance::<T>::put(total_issuance);
+
+        Self::update_vislayer(); // (opt) update values for vis layer
     }
 
     pub fn do_set_total_issuance(origin: T::RuntimeOrigin, total_issuance: u64) -> DispatchResult 

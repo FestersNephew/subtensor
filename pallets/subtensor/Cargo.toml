@@ -28,6 +28,7 @@ serde-tuple-vec-map = { version = "1.0.1", default-features = false }
 serde_bytes = { version = "0.11.8", default-features = false, features = ["alloc"] }
 serde_with = { version = "=2.0.0", default-features = false, features=["macros"] }
 sp-runtime = { version = "24.0.0", default-features = false, git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.4.0" }
+sp-runtime-interface = { version = "17.0.0", default-features = false, git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.4.0" }
 sp-std = { git = "https://github.com/paritytech/polkadot-sdk.git", default-features = false, branch = "release-polkadot-v1.4.0" }
 log = { version = "0.4.20", default-features = false }
 substrate-fixed = { git = 'https://github.com/encointer/substrate-fixed.git', tag = "v0.5.9" }

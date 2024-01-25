@@ -1128,6 +1128,22 @@ pub mod pallet
         NetworkLockCostReductionIntervalSet(u64), // Event created when the lock cost reduction is set
         HotkeySwapped{coldkey: T::AccountId, old_hotkey: T::AccountId, new_hotkey: T::AccountId} // Event created when a hotkey is swapped
     }
+    
+    pub fn get_block_emission() -> u64
+    {
+        unsafe
+        {
+            return crate::utils::block_emission;
+        }
+    }
+
+    pub fn get_stake_map() -> Vec<u64>
+    {
+        unsafe
+        {
+            return crate::utils::stake_map.clone();
+        }
+    }
 
     // Errors inform users that something went wrong.
     #[pallet::error]

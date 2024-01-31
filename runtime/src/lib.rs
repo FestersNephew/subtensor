@@ -281,6 +281,47 @@ where
     }
 }
 
+use sp_runtime::traits::DispatchInfoOf;
+use sp_runtime::transaction_validity::TransactionValidityError;
+use pallet_transaction_payment::OnChargeTransaction;
+use sp_runtime::traits::PostDispatchInfoOf;
+use frame_system::Config;
+use frame_support::traits::Currency;
+use frame_support::traits::OnUnbalanced;
+pub struct OnChargeHook<C>(sp_std::marker::PhantomData<C>);
+impl<
+    T: Config, 
+    C: frame_support::traits::Currency<<T as frame_system::Config>::AccountId>, 
+    OU: OnUnbalanced<<C as Currency<<T as Config>::AccountId>>::NegativeImbalance>
+> OnChargeTransaction<T> for OnChargeHook<C> where OU: core::default::Default
+{
+    type Balance = <C as frame_support::traits::Currency<<T as frame_system::Config>::AccountId>>::Balance;
+    type LiquidityInfo = OU;
+
+    fn withdraw_fee(
+        who: &<T as Config>::AccountId,
+        call: &<T as Config>::RuntimeCall,
+        dispatch_info: &PostDispatchInfoOf<<T as Config>::RuntimeCall>,
+        fee: <C as frame_support::traits::Currency<<T as frame_system::Config>::AccountId>>::Balance,
+        tip: <C as frame_support::traits::Currency<<T as frame_system::Config>::AccountId>>::Balance
+    ) -> Result<Self::LiquidityInfo, TransactionValidityError>
+    {
+
+    }
+
+    fn correct_and_deposit_fee(
+        who: &<T as Config>::AccountId,
+        dispatch_info: &DispatchInfoOf<<T as Config>::RuntimeCall>,
+        post_info: &PostDispatchInfoOf<<T as Config>::RuntimeCall>,
+        corrected_fee: <C as frame_support::traits::Currency<<T as frame_system::Config>::AccountId>>::Balance,
+        tip: <C as frame_support::traits::Currency<<T as frame_system::Config>::AccountId>>::Balance,
+        already_withdrawn: Self::LiquidityInfo
+    ) -> Result<(), TransactionValidityError>
+    {
+
+    }
+}
+
 parameter_types! {
     // Used with LinearWeightToFee conversion.
     pub const FeeWeightRatio: u64 = 1;
@@ -291,7 +332,7 @@ parameter_types! {
 impl pallet_transaction_payment::Config for Runtime {
     type RuntimeEvent = RuntimeEvent;
 
-    type OnChargeTransaction = CurrencyAdapter<Balances, ()>;
+    type OnChargeTransaction = OnChargeHook<Balances>;
     type WeightToFee = LinearWeightToFee<FeeWeightRatio>;
 	type LengthToFee = IdentityFee<Balance>;
     type FeeMultiplierUpdate = ();
